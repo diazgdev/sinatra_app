@@ -12,6 +12,10 @@ def save_workshop(name, description)
   end
 end
 
+def delete_workshop(name)
+  File.delete("workshops/#{name}.txt")
+end
+
 get '/' do
   @files = Dir.entries('workshops')
   erb :home
@@ -29,5 +33,25 @@ end
 
 post '/create' do
   save_workshop(params['name'], params['description'])
-  erb :new
+  @message = 'created'
+  @name = params[:name]
+  erb :message
+end
+
+delete '/:name' do
+  delete_workshop(params[:name])
+  @message = 'deleted'
+  @name = params[:name]
+  erb :message
+end
+
+get '/:name/edit' do
+  @name = params[:name]
+  @description = workshop_content(@name)
+  erb :edit
+end
+
+put '/:name' do
+  save_workshop(params[:name], params[:description])
+  redirect "/#{params[:name]}"
 end

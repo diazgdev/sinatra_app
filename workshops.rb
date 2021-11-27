@@ -53,5 +53,5 @@ end
 
 put '/:name' do
   save_workshop(params[:name], params[:description])
-  redirect "/#{params[:name]}"
+  redirect CGI.escape("/#{params[:name]}")
 end

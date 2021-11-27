@@ -29,4 +29,5 @@ end
 
 post '/create' do
   save_workshop(params['name'], params['description'])
+  erb :new
 end
